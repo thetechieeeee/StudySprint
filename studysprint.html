@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>⚡ StudySprint</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+  <script src="script.js" defer></script>
+<body>
+  <h1>⚡ StudySprint</h1>
+
+  <div class="quote" id="quote">Loading motivational quote... 💡</div>
+
+  <div class="tip">
+    💡 <strong>Tip:</strong> If you have a <strong>photo or handwritten copy</strong> of your syllabus, just upload it to <strong>ChatGPT</strong> and ask:<br>
+    <em>“Extract the topics from this image as a list”</em> 📸➡📄<br>
+    Then copy and paste the topics here to begin your study sprint! 💪
+  </div>
+
+  <div class="syllabus-area">
+    <h2 class="section-title">📝 Paste Your Syllabus</h2>
+    <textarea id="syllabusInput" placeholder="Example: Trigonometry\nAlgebra\nCalculus\n..."></textarea>
+    <button onclick="loadTopics()">🎮 Load Missions</button>
+  </div>
+
+  <div class="topics" id="topics">
+    <h2 class="section-title">🎯 Missions</h2>
+    <p id="topicCount"></p>
+  </div>
+
+  <div class="history" id="history">
+    <h2 class="section-title">📈 Progress</h2>
+    <p>No missions completed yet.</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
