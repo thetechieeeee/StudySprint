@@ -30,8 +30,6 @@ HTML, CSS, JavaScript (Vanilla)
 
 100% front-end — lightweight and fast
 
-Perfect for GitHub Pages, Netlify, or local use
-
 💡 Bonus Tip
 Have a photo or handwritten syllabus?
 Just upload it to ChatGPT and ask:
