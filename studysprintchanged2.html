@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>⚡ StudySprint</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, rgba(255,255,255,0.95), rgba(240,248,255,0.95)),
+                  url('https://images.unsplash.com/photo-1507133750040-4a8f57021571?auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
+      background-size: cover;
+      padding: 20px;
+      color: #333;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom right, rgba(255,255,255,0.9), rgba(240,248,255,0.9));
+      z-index: -1;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
+    }
+
+    h1 {
+      color: #1a237e;
+      text-align: center;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .quote, .syllabus-area, .topics, .history, .tip, .footer {
+      background: #ffffff;
+      padding: 16px;
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .tip {
+      background-color: #e8f5e9;
+      border-left: 5px solid #4caf50;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 12px;
+      font-size: 1rem;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+
+    button {
+      padding: 10px 18px;
+      background-color: #1e88e5;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1565c0;
+    }
+
+    .topic-item {
+      margin: 12px 0;
+      font-size: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 0.85em;
+      cursor: pointer;
+      color: white;
+    }
+
+    .not-started { background-color: #757575; }
+    .ongoing { background-color: #ffa000; }
+    .completed { background-color: #43a047; }
+
+    .section-title {
+      border-bottom: 2px solid #eee;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+
+    .history p {
+      margin: 6px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>⚡ StudySprint</h1>
+
+  <div class="quote" id="quote">Loading motivational quote... 💡</div>
+
+  <div class="tip">
+    💡 <strong>Tip:</strong> If you have a <strong>photo or handwritten copy</strong> of your syllabus, just upload it to <strong>ChatGPT</strong> and ask:<br>
+    <em>“Extract the topics from this image as a list”</em> 📸➡📄<br>
+    Then copy and paste the topics here to begin your study sprint! 💪
+  </div>
+
+  <div class="syllabus-area">
+    <h2 class="section-title">📝 Paste Your Syllabus</h2>
+    <label for="syllabusInput">Your Syllabus:</label>
+    <textarea id="syllabusInput" placeholder="Example:\n1. Trigonometry\n2. Algebra\n3. Calculus\n..."></textarea>
+    <button onclick="loadTopics()">🎮 Load Topics</button>
+  </div>
+
+  <div class="topics" id="topics">
+    <h2 class="section-title">🎯 Topics</h2>
+    <p id="topicCount"></p>
+  </div>
+
+  <div class="history" id="history">
+    <h2 class="section-title">📈 Progress</h2>
+    <p>No topics completed yet.</p>
+  </div>
+
+  <div class="footer">
+    📚 Happy learning! Stay curious and keep sprinting forward. 💪🎓
+  </div>
+
+  <script>
+    const quotes = [
+      "🚀 One small topic at a time, one giant leap for your brain!",
+      "🔥 You’re not tired, you’re just early in the game.",
+      "🎯 Focus beats motivation every time. But today you have both!",
+      "🏆 Study hard, level up your life!",
+      "🧠 Train your brain like a pro. Knowledge = power!"
+    ];
+
+    document.getElementById("quote").innerText =
+      quotes[Math.floor(Math.random() * quotes.length)];
+
+    let topics = [];
+    let history = [];
+
+    function addTopic(name) {
+      const trimmed = name.trim();
+      if (!trimmed) return;
+      topics.push({ name: trimmed, status: "not-started" });
+    }
+
+    function changeStatus(index) {
+      const topic = topics[index];
+      if (topic.status === "not-started") {
+        topic.status = "ongoing";
+      } else if (topic.status === "ongoing") {
+        topic.status = "completed";
+        const timestamp = new Date().toLocaleString();
+        history.push({ name: topic.name, completedAt: timestamp });
+        renderHistory();
+        alert("🏆 Topic Complete!\n🎉 You earned 50 XP!\nKeep going!");
+      } else {
+        topic.status = "not-started";
+      }
+      renderTopics();
+    }
+
+    function renderTopics() {
+      const container = document.getElementById("topics");
+      container.innerHTML = '<h2 class="section-title">🎯 Topics</h2>';
+      topics.forEach((topic, index) => {
+        let icon = topic.status === "not-started" ? "🔴" :
+                   topic.status === "ongoing" ? "🔥" : "✅";
+        let label = topic.status === "not-started" ? "Start" :
+                    topic.status === "ongoing" ? "In Progress" : "Completed 🎉";
+
+        const div = document.createElement("div");
+        div.className = "topic-item";
+        div.innerHTML = `
+          <strong>${index + 1}. ${icon} ${topic.name}</strong>
+          <span class="badge ${topic.status}" onclick="changeStatus(${index})">
+            ${label}
+          </span>`;
+        container.appendChild(div);
+      });
+
+      const topicCount = document.createElement("p");
+      topicCount.innerHTML = `<strong>Total topics loaded:</strong> ${topics.length}`;
+      container.appendChild(topicCount);
+    }
+
+    function renderHistory() {
+      const container = document.getElementById("history");
+      const count = history.length;
+      const content = history.map(entry =>
+        `<p>✅ <strong>${entry.name}</strong> - Completed on ${entry.completedAt}</p>`
+      ).join("");
+      container.innerHTML = `<h2 class="section-title">📈 Progress</h2><p><strong>Total topics completed:</strong> ${count}</p>` + (content || "<p>No topics completed yet.</p>");
+    }
+
+    function loadTopics() {
+      const input = document.getElementById("syllabusInput").value;
+      const lines = input.split("\n").map(line => line.trim()).filter(line => line.length);
+      topics = [];
+      lines.forEach(addTopic);
+      renderTopics();
+    }
+
+    renderHistory();
+  </script>
+</body>
+</html>
